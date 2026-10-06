@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siddhesh Pokharkar | Cloud & Cybersecurity</title>
+<meta name="description" content="Siddhesh Pokharkar: IT undergraduate focused on cloud computing and cybersecurity. Builder of CloudSentinel (AWS security scanner) and SentinelX (security operations platform).">
+<meta property="og:title" content="Siddhesh Pokharkar | Cloud & Cybersecurity">
+<meta property="og:description" content="Cloud security and security operations projects: CloudSentinel and SentinelX.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#05080f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4 8 13v17c0 15 10 26 24 30 14-4 24-15 24-30V13Z' fill='%2305080f' stroke='%2322d3ee' stroke-width='4'/%3E%3Cpath d='m22 32 7 7 13-14' fill='none' stroke='%2334d399' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080f; --bg2:#0a101c; --card:#0d1524; --card2:#111b2e; --line:#1c2a42;
+  --text:#e6edf7; --muted:#9aa8bd; --dim:#6b7a92;
+  --cyan:#22d3ee; --green:#34d399; --blue:#60a5fa; --red:#f87171; --amber:#fbbf24;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --r:14px; --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::selection{background:var(--cyan);color:var(--bg)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+/* background: grid + glow + canvas network */
+#net{position:fixed;inset:0;z-index:-2;pointer-events:none}
+.bg-grid{position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(34,211,238,.13),transparent 60%),
+    radial-gradient(700px 500px at -10% 30%,rgba(52,211,153,.08),transparent 60%),
+    linear-gradient(rgba(34,211,238,.035) 1px,transparent 1px) 0 0/44px 44px,
+    linear-gradient(90deg,rgba(34,211,238,.035) 1px,transparent 1px) 0 0/44px 44px,
+    var(--bg)}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+section{padding:96px 0}
+.eyebrow{font-family:var(--mono);color:var(--cyan);font-size:.85rem;letter-spacing:.04em;margin-bottom:10px}
+.eyebrow::before{content:"// "; color:var(--dim)}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}
+.lead{color:var(--muted);max-width:640px}
+.grad{background:linear-gradient(90deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(5,8,15,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700}
+.logo svg{width:28px;height:28px}
+.logo span b{color:var(--cyan)}
+.links{display:flex;gap:4px;list-style:none}
+.links a{font-size:.92rem;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .2s,background .2s}
+.links a:hover,.links a.active{color:var(--text);background:rgba(34,211,238,.08)}
+.links a.active{color:var(--cyan)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;width:42px;height:42px;cursor:pointer}
+.menu-btn svg{width:22px;height:22px;margin:auto}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;padding:12px 20px;border-radius:10px;border:1px solid var(--line);transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;cursor:pointer}
+.btn svg{width:18px;height:18px}
+.btn:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.btn-primary{background:linear-gradient(135deg,#0891b2,#059669);border-color:transparent;color:#fff;box-shadow:0 8px 28px -10px rgba(34,211,238,.55)}
+.btn-primary:hover{box-shadow:0 12px 34px -8px rgba(34,211,238,.7)}
+.btn-ghost{background:rgba(13,21,36,.7)}
+
+/* hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:100px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.8rem;color:var(--green);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);padding:6px 12px;border-radius:999px;margin-bottom:22px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.hero h1{font-size:clamp(2.4rem,6vw,4.1rem);line-height:1.05;letter-spacing:-.035em;font-weight:800;margin-bottom:16px}
+.role{font-family:var(--mono);font-size:clamp(1rem,2.3vw,1.3rem);color:var(--muted);margin-bottom:20px;min-height:1.6em}
+.role .typed{color:var(--cyan)}
+.caret{display:inline-block;width:.6em;height:1.1em;background:var(--cyan);vertical-align:-.15em;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p.lead{font-size:1.06rem;margin-bottom:30px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+.socials{display:flex;gap:10px}
+.socials a{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;color:var(--muted);background:rgba(13,21,36,.6);transition:all .2s}
+.socials a:hover{color:var(--cyan);border-color:var(--cyan);transform:translateY(-2px)}
+.socials svg{width:20px;height:20px}
+
+/* terminal */
+.term{background:rgba(10,16,28,.92);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 30px 80px -30px rgba(34,211,238,.35),inset 0 1px 0 rgba(255,255,255,.03);overflow:hidden;font-family:var(--mono);font-size:.84rem}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(17,27,46,.8)}
+.term-bar i{width:11px;height:11px;border-radius:50%;display:block}
+.term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
+.term-bar span{margin-left:auto;color:var(--dim);font-size:.75rem}
+.term-body{padding:18px;min-height:330px;white-space:pre-wrap;word-break:break-word}
+.t-p{color:var(--green)}.t-c{color:var(--cyan)}.t-d{color:var(--dim)}.t-w{color:var(--text)}.t-a{color:var(--amber)}.t-r{color:var(--red)}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+.about-text p{color:var(--muted);margin-bottom:16px}
+.about-text p strong{color:var(--text);font-weight:600}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.fact .n{font-size:1.9rem;font-weight:800;letter-spacing:-.02em}
+.fact .l{color:var(--muted);font-size:.86rem}
+
+/* cards general */
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--r);position:relative;transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(34,211,238,.45);box-shadow:0 20px 50px -25px rgba(34,211,238,.4)}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:40px}
+.skill{padding:24px}
+.skill .ic{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;margin-bottom:14px;background:rgba(34,211,238,.1);color:var(--cyan)}
+.skill .ic svg{width:22px;height:22px}
+.skill h3{font-size:1.08rem;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:.76rem;color:var(--muted);border:1px solid var(--line);background:rgba(5,8,15,.5);padding:4px 10px;border-radius:999px}
+
+/* projects */
+.projects{display:grid;gap:36px;margin-top:44px}
+.project{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.project:nth-child(even) .p-media{order:2}
+.p-media{position:relative;background:var(--bg2);border-right:1px solid var(--line);min-height:320px;overflow:hidden}
+.project:nth-child(even) .p-media{border-right:0;border-left:1px solid var(--line)}
+.p-media img{width:100%;height:100%;object-fit:cover;object-position:top left;transition:transform .6s}
+.project:hover .p-media img{transform:scale(1.03)}
+.p-body{padding:32px;display:flex;flex-direction:column;min-width:0}
+.p-tag{font-family:var(--mono);font-size:.78rem;color:var(--green);margin-bottom:8px}
+.p-body h3{font-size:1.5rem;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
+.p-body > p{color:var(--muted);margin-bottom:16px}
+.p-list{list-style:none;margin-bottom:20px}
+.p-list li{color:var(--muted);font-size:.93rem;padding-left:22px;position:relative;margin-bottom:8px}
+.p-list li::before{content:"";position:absolute;left:2px;top:.55em;width:10px;height:10px;border:2px solid var(--cyan);border-radius:3px;transform:rotate(45deg)}
+.p-stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.p-stat{font-family:var(--mono);font-size:.78rem;background:rgba(52,211,153,.08);color:var(--green);border:1px solid rgba(52,211,153,.22);border-radius:8px;padding:5px 10px}
+.p-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:8px}
+.p-links .btn{padding:10px 16px;font-size:.88rem}
+.badge-sim{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.7rem;background:rgba(5,8,15,.85);color:var(--amber);border:1px solid rgba(251,191,36,.35);padding:3px 8px;border-radius:6px}
+
+/* scan mockup for CloudSentinel */
+.scan{position:absolute;inset:0;padding:22px;font-family:var(--mono);font-size:.78rem;display:flex;flex-direction:column;gap:10px;background:
+  radial-gradient(400px 220px at 80% 0%,rgba(34,211,238,.12),transparent 70%),var(--bg2)}
+.scan-h{display:flex;justify-content:space-between;align-items:center;color:var(--muted);padding-top:22px}
+.score{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.ring{--v:72;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--red) calc(var(--v)*1%),var(--line) 0);display:grid;place-items:center;flex-shrink:0}
+.ring b{width:44px;height:44px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:.95rem;color:var(--text)}
+.find{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text);opacity:0;transform:translateX(-10px);animation:slide .5s forwards}
+.find .sev{font-size:.66rem;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
+.find .svc{margin-left:auto;color:var(--dim);flex-shrink:0}
+.find span.t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.crit{background:rgba(248,113,113,.15);color:var(--red)}.high{background:rgba(251,191,36,.15);color:var(--amber)}.med{background:rgba(96,165,250,.15);color:var(--blue)}
+@keyframes slide{to{opacity:1;transform:none}}
+.scanline{position:absolute;left:0;right:0;height:60px;background:linear-gradient(180deg,transparent,rgba(34,211,238,.12),transparent);animation:sweep 4s linear infinite;pointer-events:none}
+@keyframes sweep{from{top:-60px}to{top:100%}}
+
+/* certs */
+.certs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:40px}
+.cert{padding:24px;display:flex;gap:16px;align-items:flex-start}
+.cert .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,rgba(34,211,238,.15),rgba(52,211,153,.15));color:var(--cyan)}
+.cert .ic svg{width:24px;height:24px}
+.cert h3{font-size:1rem;line-height:1.35;margin-bottom:4px}
+.cert p{color:var(--muted);font-size:.86rem}
+.cert .yr{font-family:var(--mono);font-size:.75rem;color:var(--green)}
+
+/* timeline */
+.timeline{position:relative;margin-top:40px;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--cyan),var(--green),transparent)}
+.tl{position:relative;margin-bottom:22px}
+.tl::before{content:"";position:absolute;left:-28px;top:22px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan);box-shadow:0 0 12px rgba(34,211,238,.5)}
+.tl .card{padding:20px 24px}
+.tl-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tl h3{font-size:1.06rem}
+.tl .when{font-family:var(--mono);font-size:.8rem;color:var(--cyan)}
+.tl p{color:var(--muted);font-size:.92rem}
+.course{margin-top:26px}
+.course h3{font-size:.95rem;color:var(--muted);font-weight:500;margin-bottom:12px;font-family:var(--mono)}
+
+/* contact */
+.contact{text-align:center}
+.contact .lead{margin:0 auto 34px}
+.c-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto}
+.c-item{padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.c-item svg{width:26px;height:26px;color:var(--cyan)}
+.c-item b{font-size:.95rem}
+.c-item span{font-family:var(--mono);font-size:.74rem;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-note{font-family:var(--mono);font-size:.8rem;color:var(--green);height:1.4em;margin-top:14px}
+
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--dim);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer code{font-family:var(--mono);color:var(--muted)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* back to top */
+.top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:rgba(13,21,36,.9);color:var(--cyan);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:40}
+.top.show{opacity:1;pointer-events:auto}
+.top svg{width:20px;height:20px}
+
+@media (max-width:900px){
+  .hero-grid,.about-grid{grid-template-columns:1fr}
+  .project{grid-template-columns:1fr}
+  .project:nth-child(even) .p-media{order:0;border-left:0}
+  .p-media{border-right:0;border-bottom:1px solid var(--line);min-height:260px;aspect-ratio:16/10}
+  .c-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .menu-btn{display:grid}
+  .links{position:fixed;top:68px;left:0;right:0;flex-direction:column;gap:0;background:rgba(5,8,15,.97);border-bottom:1px solid var(--line);padding:8px 16px 16px;transform:translateY(-120%);transition:transform .3s;z-index:-1}
+  .links.open{transform:none}
+  .links a{display:block;padding:12px}
+  section{padding:72px 0}
+  .wrap{padding:0 16px}
+  .p-body{padding:22px}
+  .term-body{min-height:290px;font-size:.78rem}
+  .facts{grid-template-columns:1fr 1fr}
+}
+@media (max-width:420px){.c-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+  .find{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<canvas id="net" aria-hidden="true"></canvas>
+
+<header id="hdr">
+  <nav class="wrap nav" aria-label="Main">
+    <a href="#home" class="logo" aria-label="Siddhesh Pokharkar, home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 8 13v17c0 15 10 26 24 30 14-4 24-15 24-30V13Z" fill="#05080f" stroke="#22d3ee" stroke-width="4"/><path d="m22 32 7 7 13-14" fill="none" stroke="#34d399" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>siddhesh<b>.sec</b></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <ul class="links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="status"><span class="dot"></span>Open to internships &amp; entry-level roles</div>
+      <h1>Hi, I'm <span class="grad">Siddhesh Pokharkar</span></h1>
+      <div class="role" aria-live="polite"><span class="t-d">&gt; </span><span class="typed" id="typed">Cloud Security Enthusiast</span><span class="caret" aria-hidden="true"></span></div>
+      <p class="lead">Information Technology undergraduate building tools that watch cloud infrastructure and security events, find what's wrong, and explain why. I work with AWS, Azure, Linux, Python and the web.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/></svg>
+          View my projects</a>
+        <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+          Download resume</a>
+      </div>
+      <div class="socials">
+        <a href="https://github.com/Sid0153" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+        <a href="https://www.linkedin.com/in/siddhesh-pokharkar-aab818439/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg></a>
+        <a href="https://tryhackme.com/p/siddheshpokharkar195" target="_blank" rel="noopener" aria-label="TryHackMe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></a>
+        <a href="mailto:pokharkarsiddhesh195@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+      </div>
+    </div>
+
+    <div class="term reveal" aria-label="Terminal introduction">
+      <div class="term-bar"><i></i><i></i><i></i><span>siddhesh@sentinel: ~</span></div>
+      <div class="term-body" id="term"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow reveal">about_me</div>
+    <h2 class="reveal">Defending the cloud, <span class="grad">one finding at a time</span></h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>B.Tech Information Technology</strong> student at Fr. C. Rodrigues Institute of Technology, Vashi (2023–2027), based in Navi Mumbai. My focus is <strong>cloud computing and cybersecurity</strong>: how cloud resources get misconfigured, how attacks show up in logs, and how a small team can see both clearly.</p>
+        <p>I learn by building. <strong>CloudSentinel</strong> scans an AWS account for security misconfigurations and scores every finding. <strong>SentinelX</strong> ingests security logs, detects attacks with explainable rules mapped to MITRE ATT&amp;CK, and groups alerts into incidents for investigation. Both are tested, run in Docker, and have live demos.</p>
+        <p>I'm looking for roles in <strong>cloud security, security operations (SOC)</strong> and <strong>infrastructure</strong>, where I can keep learning from experienced engineers.</p>
+      </div>
+      <div class="facts reveal">
+        <div class="fact"><div class="n grad">2</div><div class="l">security platforms built and deployed</div></div>
+        <div class="fact"><div class="n grad">17</div><div class="l">detection &amp; security rules across both</div></div>
+        <div class="fact"><div class="n grad">3</div><div class="l">AWS &amp; IBM credentials earned in 2026</div></div>
+        <div class="fact"><div class="n grad">2027</div><div class="l">B.Tech IT graduation</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow reveal">tech_stack</div>
+    <h2 class="reveal">Skills &amp; tools</h2>
+    <p class="lead reveal">What I use to build, secure and monitor systems.</p>
+    <div class="skills">
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H7a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 11a4 4 0 0 1-1.5 8Z"/></svg></div>
+        <h3>Cloud</h3>
+        <div class="chips"><span class="chip">AWS</span><span class="chip">Microsoft Azure</span><span class="chip">IAM</span><span class="chip">VPC</span><span class="chip">EC2</span><span class="chip">S3</span><span class="chip">CloudTrail</span><span class="chip">Cloud Fundamentals</span></div>
+      </div>
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Cybersecurity</h3>
+        <div class="chips"><span class="chip">Network Security</span><span class="chip">Threat Detection</span><span class="chip">Security Monitoring</span><span class="chip">MITRE ATT&amp;CK</span><span class="chip">Cryptography</span><span class="chip">RBAC</span><span class="chip">Audit Logging</span></div>
+      </div>
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></div>
+        <h3>Languages</h3>
+        <div class="chips"><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">HTML</span><span class="chip">CSS</span></div>
+      </div>
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h3"/></svg></div>
+        <h3>Development</h3>
+        <div class="chips"><span class="chip">React.js</span><span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">FastAPI</span><span class="chip">REST APIs</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span></div>
+      </div>
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4Z"/></svg></div>
+        <h3>Tools &amp; DevOps</h3>
+        <div class="chips"><span class="chip">Linux</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">AWS Skill Builder</span></div>
+      </div>
+      <div class="card skill reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="m6 7 4 3M18 7l-4 3M6 17l4-3M18 17l-4-3"/></svg></div>
+        <h3>Core CS</h3>
+        <div class="chips"><span class="chip">Computer Networks</span><span class="chip">Operating Systems</span><span class="chip">DBMS</span><span class="chip">Cryptography &amp; Network Security</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow reveal">featured_projects</div>
+    <h2 class="reveal">Things I've built</h2>
+    <p class="lead reveal">Two full-stack security platforms, each with a live demo running on simulated data.</p>
+    <div class="projects">
+
+      <article class="card project reveal">
+        <div class="p-media" aria-hidden="true">
+          <div class="scan">
+            <span class="badge-sim">SIMULATED AWS ACCOUNT</span>
+            <div class="scan-h"><span>$ cloudsentinel scan</span><span class="t-p">● running</span></div>
+            <div class="score"><div class="ring"><b>72</b></div><div><div style="color:var(--text)">Overall risk</div><div style="color:var(--dim)">EC2 · S3 · IAM · CloudTrail</div></div></div>
+            <div class="find" style="animation-delay:.2s"><span class="sev crit">CRIT</span><span class="t">S3 bucket publicly writable</span><span class="svc">s3</span></div>
+            <div class="find" style="animation-delay:.6s"><span class="sev high">HIGH</span><span class="t">SSH open to 0.0.0.0/0</span><span class="svc">ec2</span></div>
+            <div class="find" style="animation-delay:1s"><span class="sev high">HIGH</span><span class="t">Console user without MFA</span><span class="svc">iam</span></div>
+            <div class="find" style="animation-delay:1.4s"><span class="sev med">MED</span><span class="t">No multi-region trail logging</span><span class="svc">cloudtrail</span></div>
+          </div>
+          <div class="scanline"></div>
+        </div>
+        <div class="p-body">
+          <div class="p-tag">Cloud security · 2026</div>
+          <h3>CloudSentinel: AWS Security Scanner</h3>
+          <p>A read-only AWS security scanner with a web dashboard. It discovers EC2, S3, IAM and CloudTrail resources, checks them against security rules, and gives every finding an explainable 0–100 risk score.</p>
+          <ul class="p-list">
+            <li>8 rules: SSH/RDP open to the internet, public or unencrypted S3 buckets, console users without MFA, over-broad IAM permissions, missing CloudTrail logging.</li>
+            <li>Honest coverage: a denied API call is reported as "could not check", never as "secure".</li>
+            <li>Findings tracked across scans, with analyst triage, role-based access and an append-only audit log.</li>
+          </ul>
+          <div class="p-stats"><span class="p-stat">528 backend tests</span><span class="p-stat">96% coverage</span><span class="p-stat">read-only boto3</span></div>
+          <div class="chips" style="margin-bottom:18px"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">boto3</span><span class="chip">PostgreSQL</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Docker</span></div>
+          <div class="p-links">
+            <a class="btn btn-primary" href="https://cloudsentinel-demo.onrender.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7"/></svg>Live demo</a>
+            <a class="btn btn-ghost" href="https://github.com/Sid0153/cloudsentinel" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Source code</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card project reveal">
+        <div class="p-media">
+          <span class="badge-sim">SIMULATED DATA</span>
+          <img src="assets/incident-detail.png" alt="SentinelX incident workspace: four alerts correlated into one incident, with the reason for each link, a risk breakdown and a timeline" loading="lazy" width="1440" height="1800">
+        </div>
+        <div class="p-body">
+          <div class="p-tag">Security operations · 2026</div>
+          <h3>SentinelX: Threat Detection &amp; Incident Platform</h3>
+          <p>A security operations platform: it ingests security logs, detects attacks with explainable rules, correlates alerts into incidents, and gives analysts one place to investigate, hunt and record what they did.</p>
+          <ul class="p-list">
+            <li>Ingests 5 log formats (Linux auth.log, Windows Security events, nginx/Apache, JSON) and keeps every raw record.</li>
+            <li>9 YAML detection rules (brute force, password spraying, port scans, sudo root shells…) mapped to MITRE ATT&amp;CK, each explaining itself in a sentence.</li>
+            <li>Alerts correlated into incidents with a reason per link; threat hunting, a rule playground, TOTP 2FA and a hash-chained audit log.</li>
+          </ul>
+          <div class="p-stats"><span class="p-stat">1,460 backend tests</span><span class="p-stat">98% coverage</span><span class="p-stat">WCAG AA</span></div>
+          <div class="chips" style="margin-bottom:18px"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">nginx</span><span class="chip">Docker</span></div>
+          <div class="p-links">
+            <a class="btn btn-primary" href="https://sentinelx-demo.onrender.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7"/></svg>Live demo</a>
+            <a class="btn btn-ghost" href="https://github.com/Sid0153/sentinelx" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>Source code</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <p class="lead reveal" style="margin-top:22px;font-size:.88rem">Demos run on free hosting and sleep when idle, so the first load can take a minute or two. Click <em>Explore as guest</em> to look around.</p>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="wrap">
+    <div class="eyebrow reveal">credentials</div>
+    <h2 class="reveal">Certifications &amp; badges</h2>
+    <div class="certs">
+      <div class="card cert reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div><span class="yr">2026</span><h3>AWS Security Champion Knowledge Badge</h3><p>AWS Skill Builder</p></div>
+      </div>
+      <div class="card cert reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M12 11 6 17M12 11l6 6"/></svg></div>
+        <div><span class="yr">2026</span><h3>AWS Networking Core Knowledge Badge</h3><p>AWS Skill Builder</p></div>
+      </div>
+      <div class="card cert reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+        <div><span class="yr">2026</span><h3>IBM AI Fundamentals</h3><p>IBM SkillsBuild</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrap">
+    <div class="eyebrow reveal">education</div>
+    <h2 class="reveal">Education</h2>
+    <div class="timeline">
+      <div class="tl reveal"><div class="card">
+        <div class="tl-top"><h3>B.Tech in Information Technology</h3><span class="when">2023 – 2027</span></div>
+        <p>Fr. C. Rodrigues Institute of Technology, Vashi · CGPA 6.5 / 10</p>
+      </div></div>
+      <div class="tl reveal"><div class="card">
+        <div class="tl-top"><h3>Class XII (CBSE)</h3><span class="when">2023</span></div>
+        <p>Bharati Vidyapeeth, CBD Belapur · 77%</p>
+      </div></div>
+      <div class="tl reveal"><div class="card">
+        <div class="tl-top"><h3>Class X (CBSE)</h3><span class="when">2021</span></div>
+        <p>Bharati Vidyapeeth, CBD Belapur · 86%</p>
+      </div></div>
+    </div>
+    <div class="course reveal">
+      <h3>$ cat relevant_coursework.txt</h3>
+      <div class="chips"><span class="chip">Computer Networks</span><span class="chip">Cryptography &amp; Network Security</span><span class="chip">Operating Systems</span><span class="chip">Database Management Systems</span><span class="chip">Cloud Computing</span><span class="chip">Cybersecurity Fundamentals</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal">get_in_touch</div>
+    <h2 class="reveal">Let's <span class="grad">connect</span></h2>
+    <p class="lead reveal">I'm open to internships and entry-level roles in cloud security, security operations and infrastructure. The fastest way to reach me is email.</p>
+    <div class="c-grid">
+      <a class="card c-item reveal" href="mailto:pokharkarsiddhesh195@gmail.com" data-copy="pokharkarsiddhesh195@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <b>Email</b><span>pokharkarsiddhesh195@gmail.com</span></a>
+      <a class="card c-item reveal" href="https://www.linkedin.com/in/siddhesh-pokharkar-aab818439/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+        <b>LinkedIn</b><span>siddhesh-pokharkar</span></a>
+      <a class="card c-item reveal" href="https://github.com/Sid0153" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        <b>GitHub</b><span>Sid0153</span></a>
+      <a class="card c-item reveal" href="https://tryhackme.com/p/siddheshpokharkar195" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
+        <b>TryHackMe</b><span>siddheshpokharkar195</span></a>
+    </div>
+    <div class="copy-note" id="copyNote" aria-live="polite"></div>
+    <div class="reveal" style="margin-top:18px">
+      <a class="btn btn-primary" href="mailto:pokharkarsiddhesh195@gmail.com?subject=Hello%20Siddhesh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg>Send me an email</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Siddhesh Pokharkar · Navi Mumbai, India</span>
+    <code>status: all systems secure ✓</code>
+  </div>
+</footer>
+
+<a href="#home" class="top" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></a>
+
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // header + back-to-top + active link
+  const hdr = document.getElementById('hdr'), top = document.getElementById('toTop');
+  const navLinks = [...document.querySelectorAll('.links a')];
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  const onScroll = () => {
+    const y = window.scrollY;
+    hdr.classList.toggle('scrolled', y > 20);
+    top.classList.toggle('show', y > 600);
+    let cur = -1;
+    sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    navLinks.forEach((a, i) => a.classList.toggle('active', i === cur));
+  };
+  window.addEventListener('scroll', onScroll, {passive: true}); onScroll();
+
+  // mobile menu
+  const btn = document.getElementById('menuBtn'), list = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    const open = list.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  navLinks.forEach(a => a.addEventListener('click', () => { list.classList.remove('open'); btn.setAttribute('aria-expanded', false); }));
+
+  // reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: .12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // typing roles
+  const roles = ['Cloud Security Enthusiast', 'Aspiring SOC Analyst', 'AWS & Azure Learner', 'Security Tool Builder'];
+  const typed = document.getElementById('typed');
+  if (!reduce) {
+    let r = 0, i = roles[0].length, del = true;
+    const tick = () => {
+      const w = roles[r];
+      i += del ? -1 : 1;
+      typed.textContent = w.slice(0, i);
+      let d = del ? 35 : 75;
+      if (!del && i === w.length) { del = true; d = 1800; }
+      else if (del && i === 0) { del = false; r = (r + 1) % roles.length; d = 300; }
+      setTimeout(tick, d);
+    };
+    setTimeout(tick, 2200);
+  }
+
+  // terminal
+  const term = document.getElementById('term');
+  const script = [
+    ['p', '$ ', 'c', 'whoami'],
+    ['w', 'siddhesh_pokharkar · B.Tech IT (2023–2027)'],
+    ['p', '$ ', 'c', 'cat focus.txt'],
+    ['w', 'cloud security · threat detection · SOC'],
+    ['p', '$ ', 'c', 'ls ~/projects'],
+    ['a', 'cloudsentinel/  sentinelx/'],
+    ['p', '$ ', 'c', 'sentinelx detect --rules all'],
+    ['d', '[+] 9 rules loaded (MITRE ATT&CK)'],
+    ['r', '[!] brute force → success: host web-01'],
+    ['d', '[+] correlated 4 alerts into 1 incident'],
+    ['p', '$ ', 'c', 'echo $STATUS'],
+    ['p', 'open to opportunities ✓'],
+  ];
+  const span = (cls, txt) => { const s = document.createElement('span'); s.className = 't-' + cls; s.textContent = txt; return s; };
+  if (reduce) {
+    script.forEach(l => { for (let k = 0; k < l.length; k += 2) term.appendChild(span(l[k], l[k + 1])); term.appendChild(document.createTextNode('\n')); });
+  } else {
+    let li = 0;
+    const line = () => {
+      if (li >= script.length) { const c = document.createElement('span'); c.className = 'caret'; term.appendChild(c); return; }
+      const l = script[li++];
+      const isCmd = l.length === 4;
+      if (!isCmd) { term.appendChild(span(l[0], l[1] + '\n')); return setTimeout(line, 260); }
+      term.appendChild(span(l[0], l[1]));
+      const s = span(l[2], ''); term.appendChild(s);
+      let k = 0;
+      const type = () => { s.textContent = l[3].slice(0, ++k); if (k < l[3].length) setTimeout(type, 45); else { term.appendChild(document.createTextNode('\n')); setTimeout(line, 350); } };
+      type();
+    };
+    setTimeout(line, 600);
+  }
+
+  // copy email on click with modifier-free fallback note
+  const note = document.getElementById('copyNote');
+  document.querySelectorAll('[data-copy]').forEach(a => a.addEventListener('click', () => {
+    if (navigator.clipboard) navigator.clipboard.writeText(a.dataset.copy).then(() => {
+      note.textContent = 'Email address copied to clipboard';
+      setTimeout(() => note.textContent = '', 2500);
+    }).catch(() => {});
+  }));
+
+  // network background
+  const cv = document.getElementById('net'), ctx = cv.getContext('2d');
+  let W, H, pts = [], mouse = {x: -999, y: -999};
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr;
+    cv.style.width = W + 'px'; cv.style.height = H + 'px'; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(70, W * H / 22000));
+    pts = Array.from({length: n}, () => ({x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3}));
+  };
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      if (!reduce) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+      ctx.fillStyle = 'rgba(34,211,238,.5)'; ctx.beginPath(); ctx.arc(p.x, p.y, 1.4, 0, 6.3); ctx.fill();
+    }
+    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 130) { ctx.strokeStyle = `rgba(34,211,238,${.12 * (1 - d / 130)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+    }
+    for (const p of pts) {
+      const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+      if (d < 160) { ctx.strokeStyle = `rgba(52,211,153,${.35 * (1 - d / 160)})`; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  };
+  addEventListener('resize', resize);
+  addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; if (reduce) draw(); });
+  resize(); draw();
+})();
+</script>
+</body>
+</html>
